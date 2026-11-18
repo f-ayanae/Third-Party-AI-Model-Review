@@ -1,0 +1,92 @@
+{
+  "label": "bondora_proxy",
+  "format": "investor_2026",
+  "source_sha256": "b8f964cdbebcfd3a9facfd1d3c40dffcac3936568a8d036e06cd95e19cc3dc15",
+  "n_raw": 843755,
+  "exclusions": {
+    "no rating (issued before current model)": 338380,
+    "12-month outcome not yet measurable": 188116,
+    "withdrawn within 14 days": 13310
+  },
+  "n_analysed": 303949,
+  "issue_window": [
+    "2023-09-18",
+    "2025-10-23"
+  ],
+  "horizon_months": 12,
+  "default_rate": 0.08491885151785332,
+  "reference": {
+    "window": "2024 Q2 to Q4",
+    "n": 119805,
+    "gini": 0.34950435692597837,
+    "ci": [
+      0.33930432936712906,
+      0.3588417374374594
+    ],
+    "default_rate": 0.08568089812612162
+  },
+  "out_of_time": {
+    "window": "2025 Q1 to Q3",
+    "n": 128304,
+    "gini": 0.3737649536534202,
+    "ci": [
+      0.3639232299387264,
+      0.3832268700407844
+    ],
+    "default_rate": 0.08275657812694849
+  },
+  "pooled": {
+    "gini": 0.3415624454324018,
+    "ci": [
+      0.3358418325177814,
+      0.34958654160689906
+    ]
+  },
+  "absolute_gini_note": "Reported for information only: an absolute Gini depends on the population scored and is not comparable across lenders or with a bureau's whole-population figure.",
+  "approval_rate_ratio": "not computable: dataset holds issued loans only",
+  "not_testable": [
+    "No PD in this export: calibration of predicted PDs cannot be tested; observed/expected by segment is used instead.",
+    "No age field: age-band segments cannot be tested.",
+    "Issued loans only: approval-rate ratios and reject inference cannot be tested."
+  ],
+  "reference_sensitivity": {
+    "window": "2023 Q3 to 2024 Q4",
+    "n": 165231,
+    "gini": 0.3193988422369536,
+    "ci": [
+      0.31135257877862316,
+      0.32733610313271355
+    ],
+    "psi_2025": [
+      {
+        "quarter": "2025Q1",
+        "psi": 0.10331764692956069
+      },
+      {
+        "quarter": "2025Q2",
+        "psi": 0.14426533953950896
+      },
+      {
+        "quarter": "2025Q3",
+        "psi": 0.17539308946312523
+      }
+    ]
+  },
+  "champion_challenger_demo": {
+    "challenger": "customer risk rating",
+    "champion": "interest rate (stand-in; partly set from the rating)",
+    "sample": "out-of-time",
+    "n": 128304,
+    "gini_new": 0.3737649536534202,
+    "gini_old": 0.1758026073686052,
+    "difference": 0.19796234628481502,
+    "ci": [
+      0.18517834631818042,
+      0.20950712646383074
+    ],
+    "material_loss": 0.03,
+    "no_material_loss": true
+  },
+  "price_gini_oot": 0.1758026073686052,
+  "sensitivity_including_withdrawals": "see summary_sensitivity.json"
+}

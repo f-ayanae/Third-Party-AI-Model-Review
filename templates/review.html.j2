@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+{% set V = v.vendor[0]|upper ~ v.vendor[1:] %}
+<html lang="en-GB"><head><meta charset="utf-8">
+<title>Third-Party Model Review: public-evidence readiness review of {{ v.score_name }}{% if v.named %} (PRIVATE){% endif %}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+@page { size: A4; margin: 17mm 16mm 18mm 16mm; }
+:root { --ink:#111111; --ink2:#3d3d3d; --muted:#6b6b6b; --line:#dcdcdc; --tint:#f4f4f2;
+        --serif:"Instrument Serif", "Times New Roman", Georgia, serif; --mono:"Geist Mono", "DejaVu Sans Mono", monospace; }
+* { box-sizing:border-box; }
+body { font-family: Inter, "DejaVu Sans", sans-serif; color:var(--ink); font-size:9.2pt; line-height:1.45; margin:0; }
+h1 { font-family:var(--serif); font-weight:400; font-size:24pt; letter-spacing:-0.01em; margin:0 0 6px; line-height:1.05; }
+h2 { break-after:avoid; page-break-after:avoid; font-family:var(--serif); font-weight:400; font-size:17pt; letter-spacing:-0.005em; margin:18px 0 8px; padding-bottom:4px; border-bottom:1px solid var(--ink); line-height:1.1; }
+h3 { break-after:avoid; page-break-after:avoid; font-size:9.6pt; font-weight:600; margin:12px 0 4px; }
+p { margin:0 0 7px; }
+ul, ol { margin:0 0 7px 0; padding-left:17px; } li { margin-bottom:3px; }
+.kicker { font-family:var(--mono); font-size:7pt; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:400; }
+.private { background:#111; color:#fff; font-family:var(--mono); text-align:center; padding:4px; font-size:7.5pt; letter-spacing:.08em; margin-bottom:6px; }
+.meta { font-size:8pt; color:var(--muted); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:5px 0; margin:6px 0 10px; }
+.cols { display:flex; gap:16px; } .cols > div { flex:1; }
+.box { background:var(--tint); border-left:2px solid var(--ink); padding:7px 10px; margin:6px 0 9px; }
+.box.warn { border-left-color:var(--ink); background:var(--tint); }
+table { width:100%; border-collapse:collapse; margin:5px 0 10px; font-size:8.1pt; page-break-inside:auto; border-top:1px solid var(--ink); }
+th { background:none; color:var(--muted); font-family:var(--mono); font-size:6.6pt; letter-spacing:.08em; text-transform:uppercase; text-align:left; padding:5px 5px 4px; font-weight:400; vertical-align:bottom; border-bottom:1px solid var(--line); }
+td { padding:4px 5px; border-bottom:1px solid var(--line); vertical-align:top; }
+tr { page-break-inside:avoid; }
+.small { font-size:7.6pt; } .muted { color:var(--muted); }
+.r-Critical { color:#fff; background:#111; } .r-High { color:#fff; background:#555; }
+.r-Medium { color:var(--ink); background:#fff; box-shadow: inset 0 0 0 1px var(--ink); } .r-Low { color:var(--ink); background:#e8e8e6; }
+.pill { display:inline-block; padding:1px 6px; border-radius:0; font-family:var(--mono); font-size:6.6pt; font-weight:500; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; }
+.fig { margin:6px 0 4px; text-align:center; } .fig img { width:100%; max-width:165mm; }
+.cap { font-size:7.6pt; color:var(--muted); margin:0 0 10px; }
+.pb { page-break-before:always; }
+.memo { font-size:8.4pt; line-height:1.33; } .memo li { margin-bottom:2px; }
+.memo-t td { padding:2.5px 5px; font-size:7.8pt; } .memo-t th { padding:3px 5px; }
+.finding { border-top:1px solid var(--ink); padding:7px 0 4px; margin:0 0 8px; page-break-inside:avoid; }
+.finding .hd { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:3px; }
+.finding .hd b { font-size:9.6pt; font-weight:600; }
+.finding dl { display:grid; grid-template-columns: 27mm 1fr; gap:2px 8px; margin:0; font-size:8.2pt; }
+.finding dt { color:var(--muted); font-family:var(--mono); font-size:6.8pt; letter-spacing:.06em; text-transform:uppercase; padding-top:1px; } .finding dd { margin:0; }
+code { font-family:var(--mono); font-size:7.6pt; background:var(--tint); padding:0 3px; }
+.tag { font-family:var(--mono); font-size:6.4pt; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); padding:0 4px; white-space:nowrap; }
+/* cover page */
+.cover { height:255mm; display:flex; flex-direction:column; justify-content:space-between; page-break-after:always; }
+.cv-top { display:flex; justify-content:space-between; border-bottom:1px solid var(--ink); padding-bottom:6px; }
+.cv-mid { padding-top:40mm; }
+.cv-mid h1 { font-size:40pt; line-height:1; margin:10px 0 14px; max-width:150mm; }
+.cv-sub { font-size:11pt; color:var(--ink2); max-width:130mm; line-height:1.4; }
+.cv-meta { border-top:1px solid var(--ink); margin:0; font-size:8.4pt; }
+.cv-meta th { width:38mm; border-bottom:1px solid var(--line); }
+.cv-meta td { border-bottom:1px solid var(--line); }
+/* memo header and decision */
+.memo-head { padding-bottom:2px; margin-bottom:4px; }
+.memo-head .mh-title { font-family:var(--serif); font-size:24pt; line-height:1; margin:4px 0 8px; }
+.mh { border-top:1px solid var(--ink); margin:0; font-size:8pt; }
+.mh th { width:16mm; padding:3px 5px 3px 0; } .mh td { padding:3px 5px 3px 0; }
+.decision { border-top:2px solid var(--ink); border-bottom:1px solid var(--ink); padding:5px 0 6px; margin:6px 0 8px; }
+.decision .d { font-family:var(--serif); font-size:17pt; line-height:1.05; margin:3px 0 4px; }
+.decision .r { font-size:8.3pt; color:var(--ink2); }
+</style></head><body>
+
+{% if v.named %}<div class="private">PRIVATE NAMED VERSION FOR INTERVIEWS ONLY. DO NOT PUBLISH. The public version is anonymised.</div>{% endif %}
+
+<!-- ============================== COVER ============================== -->
+<section class="cover">
+  <div class="cv-top kicker"><span>Third-Party Model Review</span><span>Public-evidence readiness review</span></div>
+  <div class="cv-mid">
+    <div class="kicker">Case study · Model risk · Third-party risk</div>
+    <h1>Assessing a credit bureau score ahead of Germany's new scoring rules</h1>
+    <p class="cv-sub">Should Mainkai Direktbank adopt {{ v.score_name }} as its primary bureau score for consumer instalment loans?</p>
+  </div>
+  <table class="cv-meta"><tbody>
+    <tr><th>Prepared by</th><td>Fiona Edocket</td></tr>
+    <tr><th>Date</th><td>12 November 2026</td></tr>
+    <tr><th>Version</th><td>{% if v.named %}Private named version{% else %}Public version; the bureau is anonymised{% endif %}</td></tr>
+    <tr><th>Recommendation</th><td>{{ outcome.decision }}</td></tr>
+    <tr><th>Status</th><td>Portfolio case study. Mainkai Direktbank AG is fictional; {{ v.vendor_long }} is real. Based on public sources only. Not an audit, a validation, a certification or a legal opinion.</td></tr>
+  </tbody></table>
+</section>
+
+<!-- ============================== DECISION MEMO ============================== -->
+<div class="memo">
+<div class="memo-head">
+  <div class="kicker">Decision memo</div>
+  <table class="mh"><tbody>
+    <tr><th>To</th><td>Credit Risk Committee, Mainkai Direktbank AG (fictional)</td><th>Date</th><td>12 November 2026</td></tr>
+    <tr><th>From</th><td>Fiona Edocket, Third-Party Model Review</td><th>Subject</th><td>Adoption of {{ v.score_name }} as the primary bureau score for consumer instalment loans</td></tr>
+  </tbody></table>
+</div>
+
+<div class="decision"><div class="kicker">Recommendation</div><div class="d">{{ outcome.decision }}</div>
+<div class="r">Applied mechanically under outcome {{ outcome.rule }} of the scope: a core element, outcomes analysis, cannot be rated on public evidence. Findings: {{ counts['Critical']|default(0) }} Critical, {{ counts['High'] }} High, {{ counts['Medium'] }} Medium, {{ counts['Low'] }} Low.</div></div>
+
+<div class="cols"><div>
+<h3>Why not yet</h3>
+<ol>
+<li><b>No outcomes evidence for Mainkai's applicants.</b> The only public performance figure is a company-reported Gini of 0.6, with no sample, period or product. That figure covers the bureau's whole population and cannot be compared with a Gini on Mainkai's applicants. Mainkai's test is relative: on the same retro-scored applicants, the new score may not lose more than 3 Gini points against the current score, and must be calibrated by pricing band. Only a retrospective scoring of Mainkai's past applicants can show this (F02).</li>
+<li><b>A legal question opens on 20 November 2026.</b> New §37a(2) BDSG bars address data from scores, and the Bundestag committee calls their use impermissible without exception. Criterion 4, age of current address, carries up to 94 points. {{ V }} has not publicly explained how it treats this criterion, and §37a conditions the lender's <i>use</i> as well as the score's creation (F01).</li>
+<li><b>Thin-file applicants hit a ceiling.</b> In the calculator, a person one year into the German credit file cannot score above {{ summary.ceiling_at_12m_step }} even with a perfect record. That is Class 2. Reaching Class 1 takes between {{ F.class1_years_min }} and {{ F.class1_years_max }} years, depending on annual bands that are not published. No public data shows whether this matches observed risk for under-25s or recent arrivals (F03).</li>
+</ol></div><div>
+<h3>What is in good shape</h3>
+<ul>
+<li>All twelve criteria and their maximum points are public. The calculator reproduces every published value, and points move in the expected direction in every criterion.</li>
+<li>Each bureau report shows points per criterion, so a person-level explanation of a decline is feasible today.</li>
+<li>{{ V }} reports an external methodological review by Fraunhofer IAIS and an acceptance by the competent data protection authority. The reports themselves are not public (F05).</li>
+</ul>
+<h3>What would change the answer</h3>
+<p>If {{ v.vendor }} supplies E01, E02, E03 and E07 by 31 January 2027, Model Validation can rate outcomes analysis. If no Critical finding emerges, the outcome rules then allow <b>approve with conditions</b>, with each High finding closed by a named owner before go-live (assumed 1 April 2027).</p>
+</div></div>
+
+<table class="memo-t"><thead><tr><th style="width:6%">ID</th><th style="width:52%">High finding: each closes through a named condition (section 4)</th><th style="width:26%">Owner</th><th style="width:16%">By</th></tr></thead><tbody>
+{% for f in highs %}<tr><td><b>{{ f.id }}</b></td><td>{{ s(f.title) }}</td><td>{{ f.owner }}</td><td>{{ f.deadline.split(' (')[0] }}</td></tr>{% endfor %}
+</tbody></table>
+<p class="small muted"><b>Residual risk if adopted with conditions:</b> concentration on one dominant bureau, a partial age proxy in time-based criteria, and legal uncertainty on §37a until a court or authority rules. These are risks to accept and monitor, not to close.</p>
+</div>
+
+<!-- ============================== 1. SCOPE AND METHOD ============================== -->
+<h2 class="pb">1. What was reviewed and how</h2>
+<p><b>Decision under review.</b> Mainkai Direktbank AG is a fictional Frankfurt direct bank supervised by BaFin, with about 450,000 retail customers. It wants to use {{ v.vendor }}'s new 12-criterion score as its primary bureau score for the Ratenkredit, an unsecured instalment loan of EUR 1,000 to 50,000 over 12 to 96 months. The score would set an auto-decline cut-off, one of five pricing bands and the maximum loan amount, across about 120,000 applications a year. Applicants in the middle band, about 20%, go to an underwriter with override authority. Mainkai's cut-offs are calibrated to the older bank-sector score, which {{ v.vendor }} is phasing out.</p>
+<p><b>Roles.</b> {{ V }} is the provider and Mainkai the deployer under the AI Act, if the score is an AI system (section 6). Under GDPR, {{ v.vendor }} is an independent controller and Mainkai the controller for the credit decision. Applicants are data subjects and, under the AI Act, affected persons. The <i>role trap</i>: if Mainkai blended the score with its own data into a new model, it would become a provider. The scope uses the score as delivered, and cut-offs are policy rules.</p>
+<p><b>Method.</b> The review has four strands. (1) A source register: {{ sources|length }} sources, each recorded as a text excerpt with a checksum (the two statutes, MaRisk and the act in BGBl. 2026 I Nr. 139, are also saved as original PDFs with SHA-256 hashes), tagged by tier, and linked to {{ n_claims }} claims, each labelled fact or assessment. (2) Lab A: a calculator built from the published points table and tested with unit tests (tests/test_calculator.py). (3) Lab B: an outcomes harness, run on {{ F.n_analysed }} Bondora loans as proxy evidence about a different lender and model. (4) A desk review against SR 26-2 and PRA SS1/23 elements A to L, with EBA GL/2020/06 section 4.3.4, MaRisk (Circular 06/2026), DORA, the AI Act as amended by Regulation (EU) 2026/1744, §37a BDSG, §505a BGB and GDPR Articles 15 and 22.</p>
+<div class="box"><b>Evidence standard.</b> Each item is rated <i>publicly available and adequate</i>, <i>available but inadequate</i>, <i>not publicly available</i>, <i>not yet due</i> or <i>not applicable</i>. Absence from the public record is not a failing: {{ v.vendor }}'s evidence duties run to its lending customers under contract, so every gap is framed as something Mainkai should request. Calculator results describe the published table, not how {{ v.vendor }} scores real people.</div>
+<p><b>Ratings.</b> <span class="pill r-Critical">Critical</span> means Mainkai could not lawfully use the score, or could not meet a deployer or §37a duty, and no fix is workable before go-live. <span class="pill r-High">High</span> means a material gap that a contract condition or pre-go-live evidence could close. <span class="pill r-Medium">Medium</span> means a gap to close within 6 months of go-live, and <span class="pill r-Low">Low</span> a good-practice improvement.</p>
+<p class="small muted">Out of scope: independent validation, any audit or certification opinion, legal advice, Mainkai's affordability model, {{ v.vendor }}'s fraud and identity products, conformity assessment, IRB use and a full ISO/IEC 42001 assessment. The author is not independent of the work and had no access to {{ v.vendor }}'s data, code or contracts.</p>
+
+<!-- ============================== 2. ARTEFACT: CALCULATOR ============================== -->
+<h2>2. The artefact: a calculator built from the published points table</h2>
+<p>{{ V }} publishes each criterion and the points it can earn. The calculator (<code>lab/calculator.py</code>) adds the twelve criteria together. <b>There is no base score.</b> The maxima sum to 999, and the floor of 100 comes from the payment criterion, which never falls below 100 while a score exists. An earlier draft of the plan added a 100-point base, which would have produced a range of 200 to 1,099. A unit test now prevents that error from returning.</p>
+<table><thead><tr><th>Criterion</th><th style="width:9%">Max</th><th style="width:12%">Sources</th><th style="width:15%">Evidence tier</th><th>Not published</th></tr></thead><tbody>
+{% for c in criteria %}<tr><td>{{ c.label }}{% if c.legal %} <span class="tag">§37a flag</span>{% endif %}</td><td><b>{{ c.max }}</b></td><td class="small">{{ c.sources }}</td><td class="small">{{ c.tier }}</td><td class="small">{{ c.unpublished }}</td></tr>{% endfor %}
+<tr><td><b>Total</b></td><td><b>999</b></td><td colspan="3" class="small">Minimum 100. No score while a payment disruption is open. Reported classes: 776+, 709 to 775, 642 to 708, 100 to 641.</td></tr>
+</tbody></table>
+<p><b>Two readings of the gaps.</b> Some annual steps are not published. The calculator never invents them. The <i>step-hold</i> reading keeps the last published value until the next published point, which gives a lower bound. The <i>interpolated</i> reading draws a straight line between published points, which is illustrative only. Every result below says which reading it uses.</p>
+<p><b>Tests (27, all passing).</b> Maximum 999 and minimum 100 under both readings. No base. Every time-based criterion is non-decreasing with age. Counts and remaining term are non-increasing. Payment recovery rises with time since settlement. Step-hold never exceeds the interpolated reading. Every published value is reproduced exactly, and an open disruption returns no score.</p>
+<div class="fig"><img src="{{ img.weights }}"></div>
+<p class="cap">Figure 1. Maximum points per criterion. Rust marks the four time-dependent criteria: {{ F.time_points }} of 999 points ({{ F.time_points_pct }}) can only be earned with time. Source: published points table; calculator.</p>
+
+<h3>What the table does to thin-file applicants</h3>
+<div class="fig"><img src="{{ img.ceiling }}"></div>
+<p class="cap">Figure 2. Highest score the published table allows after a given time in the German credit file. The profile assumes perfect payment behaviour, no mortgage, and an address as old as the file. The solid line uses published values only; the dotted line interpolates. Under published values only, Class 1 is reached after {{ F.class1_years_max }} years. The bureau's unpublished values step once a year, so if they rise early Class 1 could be reached from {{ F.class1_years_min }} years (the calculator's upper reading); the published table cannot narrow this range, and the interpolated line ({{ F.class1_months_interp }} months) is illustrative, not a bound. The ceiling of {{ F.ceiling_12m }} at one year holds under both bounds.</p>
+<div class="fig"><img src="{{ img.archetypes }}"></div>
+<p class="cap">Figure 3. Calculator scores for six constructed profiles (published values, step-hold). Each profile is a documented case in <code>lab/run_lab.py</code>, not a sample of real people.</p>
+<p><b>Reading the results.</b> The table rewards time in the file, and it does so by design: {{ v.vendor }} says points reflect the historical default rates of each group. A lower score for a short history is therefore not a defect in itself. It becomes a problem only if observed default rates for those groups do not support it, and that evidence is not public (F03). Two design features stand out. First, <i>entry dips</i>: holding no credit card earns 24 points, while a new card earns 0 to 23 in its first year, so opening a first product lowers the score for a while. Second, the established renter who moved six months ago (A2) still reaches Class 1 because her long card and contract history carries her; the address criterion mainly separates people who have stayed put for years from everyone else.</p>
+
+<div class="fig"><img src="{{ img.sensitivity }}"></div>
+<p class="cap">Figure 4. One event at a time, applied to the under-25 profile A3 (score {{ F.a3_score }}). Taking Mainkai's own 60-month loan costs {{ F.a3_loan60_drop }} points across three criteria (loans taken, remaining term, credit status) and drops the profile to Class 4 (F13).</p>
+
+<!-- ============================== 3. LAB B ============================== -->
+{% set B = bondora.s %}
+<h2>3. Outcomes tests, run on Bondora's loan data (proxy evidence)</h2>
+<p>Outcomes analysis needs outcomes, and none are public for {{ v.vendor }}'s score. Lab B therefore runs the tests Mainkai should require on its own retro-scored applicants (request E02) on a dataset where outcomes are public: Bondora's loan book. <b>Bondora is a different lender, with a different model, products, countries and default definition. Nothing below is evidence about {{ v.vendor }}.</b> The run shows what the tests find in a real rating, and why each one matters.</p>
+<div class="box"><b>Data.</b> Bondora "Loan Dataset" investor export, downloaded by the author and supplied on 12 November 2026 (B03): {{ "{:,}".format(B.n_raw) }} loans issued from February 2009 to September 2026, SHA-256 <code>463277de6f9c</code>. <b>Exclusions:</b> {% for k, n in B.exclusions.items() %}{{ k }} {{ "{:,}".format(n) }}{% if not loop.last %}; {% endif %}{% endfor %}. <b>Analysed:</b> {{ "{:,}".format(B.n_analysed) }} loans. Score: Bondora's customer risk rating (AA best to G; HR has fewer than 30 loans and is suppressed). Target: Bondora's own flag for default within 12 months on book. Reference period {{ B.reference.window }} ({{ "{:,}".format(B.reference.n) }} loans); out-of-time {{ B.out_of_time.window }} ({{ "{:,}".format(B.out_of_time.n) }} loans; 2025 Q4 left out because only 23% of it is measurable yet). The reference starts in 2024 Q2 because loans from 2023 Q3 to 2024 Q1 belong to an earlier rating regime (quarterly Gini {{ F.early_gini_range }}, against {{ F.ref_gini }} for the reference). Using the full {{ F.ref_sens_window }} window instead gives a reference Gini of {{ F.ref_sens_gini }} and 2025 PSI of {{ F.ref_sens_psi }}, which overstates drift. Outcome availability was checked by issue month: every month to September 2025 is fully measurable, so the out-of-time sample is not selected on outcomes. Only aggregates of at least 30 loans leave the harness. The harness reads both Bondora formats through adapters and is tested on a synthetic fixture with planted defects (tests/test_outcomes_harness.py). Rerun: <code>make bondora CSV=data/bondora/loan_dataset_investor.parquet</code>.</div>
+<table><thead><tr><th style="width:21%">Test</th><th>Result on Bondora's data</th><th style="width:15%">Mainkai tolerance</th><th style="width:13%">Reading</th></tr></thead><tbody>
+<tr><td>Discrimination, out-of-time</td><td>Gini <b>{{ "%.3f"|format(B.out_of_time.gini) }}</b> (95% interval {{ "%.3f"|format(B.out_of_time.ci[0]) }} to {{ "%.3f"|format(B.out_of_time.ci[1]) }}) on 2025 loans; reference period {{ "%.3f"|format(B.reference.gini) }}. Interest rate alone: {{ "%.3f"|format(B.price_gini_oot) }}.</td><td>Reported for information; not a tolerance</td><td>Information only: an absolute Gini depends on the population scored</td></tr>
+<tr><td>Champion-challenger, paired (method demonstration)</td><td>Rating against the interest rate as a stand-in for a current score, on the same out-of-time loans: Gini {{ F.cc_new }} against {{ F.cc_old }}, difference {{ F.cc_diff }} (95% bootstrap interval {{ F.cc_ci }}). The export holds one score, and Bondora sets its rates partly from the rating, so this shows the test, not a real comparison.</td><td>Lower bound of the difference above -{{ F.cc_loss }}</td><td><b>{{ "Passes" if F.cc_result == "no material loss" else "Fails" }}</b> (demonstration)</td></tr>
+<tr><td>Rank-ordering by grade</td><td>Out of time, {{ F.oot_break }}; in the reference period, {{ F.ref_break }}.</td><td>Rising in every band</td><td><b>Breaks at the tail</b></td></tr>
+<tr><td>Calibration of predicted PD</td><td>Not testable: the export gives grades but no PD per grade.</td><td>PD inside interval per band</td><td>Not testable</td></tr>
+<tr><td>Grade-level drift</td><td>{{ F.grades_worse|capitalize }} grades defaulted more in 2025 than in the reference period ({{ F.drift_top }}), yet the overall rate was {{ F.dr_oot }} against {{ F.dr_ref }}, because the mix moved towards AA.</td><td>Stable per band</td><td><b>Drift hidden by mix</b></td></tr>
+<tr><td>Population stability (grade mix)</td><td>PSI against the reference period: {% for r in bondora.stab if r.quarter.startswith('2025') %}{{ r.quarter }} {{ "%.2f"|format(r.psi_vs_reference|float) }}{% if not loop.last %}, {% endif %}{% endfor %}.</td><td>Below 0.10 green; 0.10 to 0.25 amber</td><td><b>{{ F.psi_2025_reading }}</b> in 2025 ({{ F.psi_2025_bands }})</td></tr>
+<tr><td>Segment consistency (observed / expected given grade mix, same period)</td><td>{{ F.seg_extremes }}.</td><td>Close to 1</td><td><b>Inconsistent</b> across segments</td></tr>
+<tr><td>Approval-rate ratio</td><td>Not testable: issued loans only.</td><td>At least 0.80</td><td>Not testable</td></tr>
+<tr><td>Sensitivity: keep 14-day withdrawals</td><td>{% if bondora.sens %}Out-of-time Gini {{ "%.3f"|format(bondora.sens.gini_oot) }}: no material change.{% endif %}</td><td>n/a</td><td>Robust</td></tr>
+</tbody></table>
+<div class="fig"><img style="max-width:150mm" src="{{ bondora.img_ro }}"></div>
+<p class="cap">Figure 5. Bondora 12-month default rate by grade, reference period against the 2025 out-of-time sample, with 95% Wilson intervals. Proxy evidence about a different lender.</p>
+<div class="fig"><img style="max-width:150mm" src="{{ bondora.img_seg }}"></div>
+<p class="cap">Figure 6. Observed against expected 12-month defaults by segment, 2025 Q1 to Q3. Expected applies the period's grade default rates to each segment's own grade mix, so a ratio of 1 means a grade carries the same risk in that segment as overall. Income "not recorded" has fewer than 30 loans and is suppressed.</p>
+<h3>What this means for the decision</h3>
+<ul>
+<li><b>Compare scores on the same applicants, not levels.</b> An absolute Gini is not comparable across populations, and this sample holds approved loans only. The decisive test is paired: new against current score on the same retro-scored applicants, with a bootstrap interval for the difference (E02), for both the points score and any bands Mainkai will use.</li>
+<li><b>A rising average is not enough.</b> Rank-ordering held across most of the scale but broke at the risky end, which is exactly where Mainkai's auto-decline cut-off will sit. Default rates per score band with intervals, per vintage, belong in E02.</li>
+<li><b>The same score can mean different risk in different groups.</b> On this data observed defaults reached {{ F.oe_max }} times the expected level in one segment and {{ F.oe_min }} in another. Mainkai cannot see this for under-25s or recent arrivals without E04, and the thin-file ceiling in section 2 makes those the groups to test first.</li>
+<li><b>Monitor by band, not just in aggregate.</b> A near-flat portfolio default rate hid worsening in {{ F.grades_worse }} grades. Mainkai's monitoring pack (E10) needs band-level observed-to-expected tracking.</li>
+</ul>
+
+
+<!-- ============================== 4. FINDINGS ============================== -->
+<h2>4. Findings</h2>
+<p>Each finding is labelled <i>fact</i> (sourced) or <i>assessment</i> (with its basis). Status describes the public record; the rating describes the consequence for Mainkai's decision.</p>
+{% for f in findings %}
+<div class="finding"><div class="hd"><b>{{ f.id }} · {{ s(f.title) }}</b><span><span class="tag">{{ f.basis }}</span> <span class="tag">{{ f.status.value }}</span> <span class="pill r-{{ f.rating.value }}">{{ f.rating.value }}</span></span></div>
+<dl><dt>Observation</dt><dd>{{ s(f.observation) }}</dd>
+<dt>Why it matters</dt><dd>{{ s(f.why_it_matters) }}</dd>
+<dt>Condition</dt><dd>{{ s(f.condition) }}</dd>
+<dt>Owner · by</dt><dd>{{ f.owner }} · {{ f.deadline }}{% if f.requests %} · requests {{ f.requests|join(', ') }}{% endif %}</dd>
+<dt>Residual risk</dt><dd>{{ s(f.residual_risk) }}{% if f.escalation %} <b>Escalation:</b> {{ s(f.escalation) }}{% endif %}</dd>
+<dt>Sources</dt><dd class="muted">{{ f.sources|join(', ') }} · element {{ f.element }}</dd></dl></div>
+{% endfor %}
+
+<!-- ============================== 5. CROSSWALK ============================== -->
+<h2 class="pb">5. Model-risk crosswalk: elements A to N</h2>
+<p>Elements follow SR 26-2 (which superseded SR 11-7 on 17 April 2026) and PRA SS1/23, anchored to EBA GL/2020/06 section 4.3.4 and MaRisk. <b>Core</b> marks the five elements that decide outcome rule 3.</p>
+<div class="box"><b>Ratability test.</b> A core element can be rated only if some <i>result</i> is visible, not just the existence of a process. A reported figure, a published table or a stated review conclusion counts; a description of a procedure does not. The test is enforced in code (src/assurance/models.py): a core element cannot be marked ratable without a recorded visible result.</div>
+<table class="small"><thead><tr><th style="width:5%">El.</th><th style="width:25%">Core element</th><th>Visible result on the public record</th><th style="width:9%">Rated?</th></tr></thead><tbody>
+{% for r in crosswalk if r.core %}<tr><td><b>{{ r.element }}</b></td><td>{{ r.name }}</td><td>{{ s(r.visible_result) if r.visible_result else '<b>None visible</b>' }}</td><td>{{ 'Yes' if r.ratable else '<b>No</b>' }}</td></tr>{% endfor %}
+</tbody></table>
+<p><b>ECB guide to internal models:</b> not applied, as it covers IRB internal models, which are out of scope. Its machine-learning section (explainability, and performance that justifies complexity) is used only as a reference point for elements D and G.</p>
+<table class="small"><thead><tr><th style="width:4%">El.</th><th style="width:13%">Element</th><th style="width:15%">Anchors</th><th style="width:26%">Public evidence</th><th style="width:20%">Lab result</th><th style="width:12%">Status</th><th style="width:7%">Rated?</th><th style="width:5%">F</th></tr></thead><tbody>
+{% for r in crosswalk %}<tr><td><b>{{ r.element }}</b></td><td>{{ r.name }}{% if r.core %} <span class="tag">core</span>{% endif %}</td><td>{{ r.anchors }}</td><td>{{ s(r.public_evidence) }}</td><td>{{ s(r.lab) }}</td><td>{{ r.status.value }}</td><td>{{ 'Yes' if r.ratable else '<b>No</b>' }}</td><td>{{ r.findings|join(' ') }}</td></tr>{% endfor %}
+</tbody></table>
+
+<!-- ============================== 6. AI ACT ============================== -->
+<h2>6. AI Act: classification and readiness</h2>
+<h3>Is it an AI system? A reasoned position</h3>
+<p><b>The case for.</b> The points were learned from data by logistic regression, and {{ v.vendor }} describes the method as learning from examples and extracting statistical correlations (V12). The output is a prediction that shapes decisions about people, and Annex III point 5(b) names credit scoring of natural persons. <b>The case against.</b> Once fitted, the score is a fixed additive table. The Commission's guidelines on the definition place systems that improve or approximate well-established optimisation methods, naming linear and logistic regression, outside Article 3(1) (L09). Commentators dispute whether that carve-out reaches regression used to decide on people.</p>
+<p><b>Position: treat the score as in scope, on a precautionary basis.</b> The downside of wrongly assuming it is out of scope falls on Mainkai, as deployer, and on applicants. Most of the controls are required anyway by GDPR, §37a BDSG, §505a BGB and MaRisk. This position would change if the Commission, BaFin or the CJEU said that fixed regression scorecards fall outside Article 3(1).</p>
+<ul>
+<li><b>Annex III point 5(b):</b> applies. The fraud-detection exception is not engaged.</li>
+<li><b>Article 6(3) derogation:</b> unavailable. An Annex III system that profiles natural persons is always high-risk, and credit scoring is profiling under GDPR Article 4(4).</li>
+<li><b>Timing and legacy rule:</b> Annex III obligations apply from 2 December 2027 (Regulation (EU) 2026/1744). The score was placed on the market on 17 March 2026, so under Article 111(2) it is caught only if its design changes significantly after that date (L08). A change made <i>before</i> 2 December 2027, for instance to criterion 4 for §37a, would not by itself bring the score into scope. A re-weighting after that date could. Mainkai should plan for the obligations and not rely on the exemption.</li>
+<li><b>Supervisor:</b> since 29 July 2026, BaFin has been the AI Act market surveillance authority for creditworthiness systems of the institutions it supervises (KI-MIG, L10).</li>
+</ul>
+<h3>Deployer readiness (rows D1 to D10 of the obligation matrix)</h3>
+<p>Ten provider rows are expected from {{ v.vendor }}. Five are not publicly available, four are available but inadequate, and one is not yet due. Mainkai's own rows are mostly within its control. Two depend on {{ v.vendor }}: D2 (use in line with instructions) and D7 (DPIA). Both are blocked until {{ v.vendor }} provides instructions for use (P5). The DPIA is needed now under GDPR Article 35, whatever the AI Act position. The full matrix is in Annex B.</p>
+<div class="box"><b>FRIA outline (Article 27, one page in the repo).</b> <i>Process:</i> origination decline, pricing band and limit for the Ratenkredit. <i>Frequency:</i> continuous, about 120,000 applications a year. <i>Affected groups:</i> applicants aged 18 and over, with the thin-file groups named (under-25s, residents under 3 years, the self-employed). <i>Specific risks:</i> exclusion of short-history applicants, an address criterion under legal question, and data errors. <i>Oversight:</i> the refer band, override authority and the §37a(5) review route. <i>Remedies:</i> contest, data correction and complaints. <i>Notification:</i> to BaFin before first use. The FRIA needs E04 and E05 before it can be completed.</div>
+
+<!-- ============================== 7. THIRD PARTY AND GERMAN LAW ============================== -->
+<h2 class="pb">7. Third-party classification and German law</h2>
+<h3>Which regime governs the relationship?</h3>
+<p>The 9th MaRisk amendment (Circular 06/2026 (BA), 30 June 2026) removes ICT services under Article 3(21) DORA from AT 9 (L11). A relationship therefore falls under AT 9, under DORA third-party risk, or under neither. The plan's earlier assumption that the score was an "AT 9 outsourcing candidate" relied on the superseded 2023 circular.</p>
+<table><thead><tr><th style="width:22%">Test</th><th>Analysis</th><th style="width:18%">Result</th></tr></thead><tbody>
+<tr><td>DORA ICT service (Art 3(21))</td><td>Score and report delivered on an ongoing basis through ICT systems (an API) as a data service.</td><td><b>Likely yes</b> (assessment)</td></tr>
+<tr><td>Critical or important function (Art 3(22))</td><td>The score drives declines, pricing and limits for a core retail product. Its loss would stop automated origination.</td><td><b>Likely yes</b></td></tr>
+<tr><td>MaRisk AT 9 outsourcing</td><td>Excluded if the relationship is a DORA ICT service. The credit decision stays with Mainkai in any case.</td><td>Not applicable</td></tr>
+<tr><td>EBA/GL/2026/09 (non-ICT)</td><td>Only relevant if the service were found to be non-ICT. Final 18 Sep 2026; application date not yet confirmed.</td><td>Fallback only</td></tr>
+</tbody></table>
+<p><b>Consequence.</b> Mainkai needs a register-of-information entry, the Article 30(2) and (3) contract provisions (service levels, audit and access rights, incident notification, exit support), an exit plan under Article 28(8), and concentration-risk analysis (F08). Model risk stays with Mainkai whatever the classification. SR 26-2 and EBA GL/2020/06 both hold the user responsible for understanding a vendor model.</p>
+<h3>§37a BDSG from 20 November 2026</h3>
+<p>Section 37a replaces §31 BDSG (BGBl. 2026 I Nr. 139). A probability value used to decide on a contract with a natural person may be created or used only if the following inputs are left out: special categories of data, age, gender, name, social-network data, account movements and <b>address data</b>. It also must not concern minors and must rest on a scientifically recognised method (L01, L04). On request, the creator must explain the data, the weighting of the most influential criteria and the meaning of the value (§37a(4)). The applicant can contest the decision and obtain a decision by a natural person from the lender (§37a(5)).</p>
+<ul>
+<li><b>Address data (F01).</b> Under the old §31, address data were allowed as long as they were not used exclusively. The new rule removes that allowance. Whether <i>age of current address</i> counts as address data is untested. The criterion measures duration rather than location, but it is derived from address records, and {{ v.vendor }} has said nothing public about it. This is the most time-critical item in the review.</li>
+<li><b>Age.</b> The score does not use the applicant's age. Time-based criteria correlate with age, but §37a bans age as an input, not correlated inputs. This is a fairness and bias question (F03), not a §37a breach.</li>
+<li><b>Minors.</b> The scope population is 18 and over, so this condition is met.</li>
+</ul>
+<h3>GDPR Articles 15 and 22, and the courts</h3>
+<p>Under {{ v.case_cjeu }}, a bureau's score can itself be an automated decision when a lender draws strongly on it. In {{ v.case_bgh }}, the BGH set aside four appellate judgments against {{ v.vendor }} and remanded them. It held that the Article 15(1)(h) right to information about the logic exists only where all elements of Article 22(1) are met. It eased the burden of proof: if a score was transmitted and an adverse decision followed in time, decisiveness is presumed (L05). <b>{{ V }} won those appeals; the rulings did not create a general new right.</b> The broader right comes from §37a(4) from 20 November 2026. CJEU C-203/22 sets the content of an explanation: the procedure and principles actually applied, in a form the person can understand and use to contest (L07). For Mainkai, auto-declines below the cut-off will normally meet the presumption. Mainkai is also itself making an Article 22 decision, which needs a lawful basis under Article 22(2) and Article 22(3) safeguards.</p>
+<h3>§§505a ff. BGB (CCD2) from 20 November 2026</h3>
+<p>The creditworthiness test now requires that repayment be <i>likely</i>. Where the assessment uses automated processing, the consumer can request human intervention, an explanation and a review. §505b(2) and (3) BGB restrict data sources, excluding special categories and social-network data. The score is one input to Mainkai's test, not the test itself. Affordability remains out of scope.</p>
+
+<!-- ============================== 8. RECOMMENDATION ============================== -->
+<h2>8. Residual risk and recommendation</h2>
+<p>The outcome rules are applied in code (<code>src/assurance/outcome_rules.py</code>), so the recommendation follows from the ratings rather than from judgement at the end.</p>
+<table><thead><tr><th style="width:24%">Rule</th><th>Test against this review</th><th style="width:15%">Met?</th></tr></thead><tbody>
+<tr><td>4. Reject</td><td>Any Critical that {{ v.vendor }} confirms it will not remediate</td><td>No Critical</td></tr>
+<tr><td>3. Defer pending evidence</td><td>A core element cannot be rated: {% for r in outcome.reasons %}{{ r }}{% if not loop.last %}; {% endif %}{% endfor %}</td><td><b>Yes: applies</b></td></tr>
+<tr><td>2. Approve with conditions</td><td>No Critical, and each High has an owner and a pre-go-live deadline</td><td>Conditions are ready; blocked by rule 3</td></tr>
+<tr><td>1. Approve</td><td>No Critical or High open, and every deployer obligation has an owner and an evidence plan</td><td>No: {{ counts['High'] }} High</td></tr>
+</tbody></table>
+<p><b>Path:</b> {% for p in outcome.path %}{{ p }} {% endfor %}A unit test confirms that rule 2 is the result once element H becomes ratable and every other rating stays the same.</p>
+<h3>Scenario test: the rules can produce other answers</h3>
+<p>Public evidence alone cannot rate outcomes analysis, so on public evidence the rules always defer. To show the decision is not fixed in advance, the same rules are run on two scenarios. <b>The evidence in scenarios S1 and S2 is SYNTHETIC: it is invented to test the rules and says nothing about {{ v.vendor }}.</b></p>
+<table><thead><tr><th style="width:6%">#</th><th style="width:20%">Scenario</th><th>Evidence assumed</th><th style="width:17%">Outcome</th></tr></thead><tbody>
+{% for sc in scenarios %}<tr><td><b>{{ sc.id }}</b></td><td>{{ sc.name }}{% if sc.synthetic %} <span class="tag">synthetic</span>{% endif %}</td><td>{{ s(sc.assumption) }}</td><td><b>{{ sc.decision }}</b> ({{ sc.rule }})</td></tr>{% endfor %}
+</tbody></table>
+<p class="small">Run in code by <code>src/assurance/scenarios.py</code>; results also in <code>deliverables/scenarios.csv</code>. Unit tests fix each expected outcome.</p>
+
+<!-- ============================== 9. EVIDENCE REQUEST ============================== -->
+<h2 class="pb">9. Evidence request ({{ requests|length }} items)</h2>
+<p>Every "not publicly available" item has become a precise request. Requests marked for contract signature gate the decision.</p>
+<table class="small"><thead><tr><th style="width:5%">#</th><th style="width:37%">What Mainkai asks {{ v.vendor }} for</th><th style="width:25%">How Mainkai will test it</th><th style="width:8%">F</th><th style="width:13%">By</th><th style="width:12%">Owner</th></tr></thead><tbody>
+{% for r in requests %}<tr><td><b>{{ r.id }}</b></td><td>{{ s(r.item) }}</td><td>{{ s(r.test) }}</td><td>{{ r.findings|join(' ') }}</td><td>{{ r.deadline.split(' (')[0] }}</td><td>{{ r.owner }}</td></tr>{% endfor %}
+</tbody></table>
+
+<h2>10. Questions for management</h2>
+<ol>
+<li>What is the latest go-live date the business can accept if {{ v.vendor }} needs until 2027 to settle the address criterion?</li>
+<li>Will Mainkai accept a lower approval rate for under-25s and recent arrivals in exchange for adopting the new score, and who signs off that trade-off?</li>
+<li>Should cut-offs be set on the new score alone, or on a challenger strategy that runs old and new scores side by side for two quarters?</li>
+<li>Does Mainkai's own default definition match {{ v.vendor }}'s target closely enough to map scores to pricing bands?</li>
+<li>If the score were withdrawn tomorrow, how would origination continue, and how long would it take?</li>
+</ol>
+
+<h2>11. What this review does not prove</h2>
+<table class="small"><thead><tr><th style="width:24%">Area</th><th>Evidence a real lender or bureau would hold</th></tr></thead><tbody>
+<tr><td>Latency and throughput</td><td>Load-test results and API latency at peak (for example the 95th percentile), set in the SLA</td></tr>
+<tr><td>Availability and failover</td><td>Uptime reports, the DR site, failover test results and RTO and RPO evidence</td></tr>
+<tr><td>Access control</td><td>User-access reviews, privileged-access logs and segregation of duties between model development and deployment</td></tr>
+<tr><td>Secrets management</td><td>Key-management policy, rotation records and API credential storage</td></tr>
+<tr><td>Model updates and change management</td><td>Change tickets, version release notes, parallel-run results and approval records</td></tr>
+<tr><td>Incident response</td><td>Incident log, root-cause reports and notification timelines under DORA Article 19</td></tr>
+<tr><td>Log retention</td><td>Retention schedule covering the AI Act Article 26(6) minimum, the §37a(4) one-year record and credit-file rules</td></tr>
+<tr><td>Data residency</td><td>Data-location clauses, a subprocessor list and transfer assessments</td></tr>
+</tbody></table>
+
+<h2>12. Limitations</h2>
+<ul>
+<li>Public sources only. Sources were captured as text excerpts, and the hashes cover those excerpts. A byte-exact archive (Playwright, original PDFs) is an open QA item.</li>
+<li>Criteria 5, 8 and 9, the first-year address value and the score-class boundaries were first taken from two agreeing secondary sources and then confirmed by the author on {{ v.vendor }}'s own pages on 13 November 2026 (class boundaries V21; criterion values V22). The bureau's text for criterion 9 overlaps at exactly three years ('up to three years' 61, 'three years or more' 48); because it also says terms of up to three years have no negative impact, the calculator scores exactly 36 months as 61. The full band table is still requested (E06).</li>
+<li>The calculator describes the published table. It cannot reproduce rounding, grace rules, debt-collection effects or data mapping.</li>
+<li>Bondora results describe a different lender, model, population and default definition. The export has no PD, model version or age, so calibration, version comparison and age segments could not be tested on it.</li>
+<li>The Bondora sample holds approved loans only. Applicants Bondora rejected are missing, so the riskiest part of the population is absent; this compresses the score range and lowers Gini whatever the score's design. The proxy's Gini level ({{ F.oot_gini }}) is therefore not comparable with the bureau's reported 0.6, which is one reason Mainkai's tolerance is a paired comparison, and approval rates and reject inference cannot be tested on it.</li>
+<li>The legal analysis is a reading by a non-lawyer, and the §37a address question is genuinely open.</li>
+<li>Prepared without practitioner review. The findings, ratings, core-element choices and tolerances are the author's own judgement and have not been challenged by a second reviewer; the scenario test in section 8 shows how the outcome moves when the evidence changes.</li>
+</ul>
+
+<!-- ============================== ANNEXES ============================== -->
+<h2 class="pb">Annex A. Irish read-across</h2>
+<p>The case is set in Germany because no Irish bureau publishes its scoring criteria, so the public evidence needed for a desk review does not exist there. Most of the analysis carries over unchanged. The AI Act, GDPR (including C-634/21 and C-203/22), DORA and the Consumer Credit Directive (EU) 2023/2225 apply in Ireland as they do in Germany.</p>
+<table><thead><tr><th style="width:26%">Topic</th><th>For a Central Bank-supervised Irish lender</th></tr></thead><tbody>
+<tr><td>Supervisor and AI authority</td><td>The Central Bank of Ireland supervises the lender and, under the Regulation of Artificial Intelligence Act 2026, is the authority for high-risk AI used by regulated financial firms. Credit scoring is high-risk.</td></tr>
+<tr><td>Bureau data</td><td>The Central Credit Register (operated by the Central Bank) provides credit reports, not a published points score. A lender's own model, or a vendor model, would carry the model risk.</td></tr>
+<tr><td>Consumer protection</td><td>The revised Consumer Protection Code applies to lending conduct. CCD2 creditworthiness rules apply through Ireland's transposition (check the Irish statutory instrument).</td></tr>
+<tr><td>Data protection</td><td>Data Protection Commission. There is no Irish equivalent of §37a BDSG: Article 22 safeguards rest on GDPR and the Data Protection Act 2018.</td></tr>
+<tr><td>Third-party risk</td><td>DORA register and Article 30 as above. The Central Bank's outsourcing and third-party guidance applies, alongside consultation CP173 (closes 3 Dec 2026).</td></tr>
+</tbody></table>
+
+<h2>Annex B. Obligation matrix (25 rows)</h2>
+<table class="small"><thead><tr><th style="width:5%">ID</th><th style="width:26%">Obligation</th><th style="width:15%">Source</th><th style="width:10%">Owner</th><th style="width:15%">Status</th><th style="width:7%">Rating</th><th>Notes</th></tr></thead><tbody>
+{% for o in obligations %}<tr><td><b>{{ o.id }}</b></td><td>{{ o.obligation }}</td><td>{{ o.source }}</td><td>{{ o.owner }}</td><td>{{ o.actual_status }}</td><td>{{ o.rating }}</td><td>{{ o.notes }}</td></tr>{% endfor %}
+</tbody></table>
+
+<h2 class="pb">Annex C. Source register</h2>
+<p class="small">Captured 12 November 2026; L01, L05, L11, L20, L21, L24, V21 and V22 checked by the author against the primary page or document on 13 November 2026. Tiers: V1 vendor primary; V2 vendor-affiliated or secondary reporting of vendor figures; L1 official legal text, court or agency; L2 professional commentary; D dataset documentation. Checksum F is the SHA-256 of an original file saved in evidence/; checksum E is the SHA-256 of the recorded excerpt, which shows the excerpt has not changed but not that it matches the original page. {% if not v.named %}URLs that identify the bureau are withheld here and kept in the private named register. The hashes allow the captures to be matched.{% endif %} Counts: {% for t, n in tiers|dictsort %}{{ t }} {{ n }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+<table class="small"><thead><tr><th style="width:5%">ID</th><th style="width:5%">Tier</th><th style="width:38%">Title</th><th>URL</th><th style="width:16%">Checksum (first 12)</th></tr></thead><tbody>
+{% for r in sources %}<tr><td><b>{{ r.id }}</b></td><td>{{ r.tier }}</td><td>{{ r.title }}</td><td style="word-break:break-all">{{ r.url }}</td><td>{% if r.file_sha_short %}<code>F {{ r.file_sha_short }}</code>{% else %}<code>E {{ r.sha_short }}</code>{% endif %}</td></tr>{% endfor %}
+</tbody></table>
+<p class="small muted">Reproduce: <code>python evidence/build_register.py</code> · <code>python lab/run_lab.py</code> · <code>python -m pytest</code> · <code>python -m assurance.render</code>. Raw Bondora rows are never committed; see LICENCES.md.</p>
+</body></html>

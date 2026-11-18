@@ -1,0 +1,13 @@
+criterion,id,max_points,share_pct,time_dependent,legal_flag
+Payment disruptions,c01_payment_disruptions,264,26.4,False,
+Age of oldest bank contract,c02_oldest_bank_contract,69,6.9,True,
+Age of oldest credit card,c03_oldest_credit_card,81,8.1,True,
+Age of current address,c04_current_address,94,9.4,True,s.37a(2) No.1(d) BDSG excludes address data from 20 Nov 2026
+Age of most recent credit line,c05_recent_credit_line,36,3.6,True,
+"Current-account and card inquiries/transactions, 12 months",c06_bank_card_inquiries,117,11.7,False,
+"Inquiries outside banking, 12 months",c07_nonbank_inquiries,99,9.9,False,
+"Instalment loans taken, 12 months",c08_instalment_loans_taken,66,6.6,False,
+Longest remaining term of instalment loans,c09_longest_remaining_term,61,6.1,False,
+Credit status,c10_credit_status,19,1.9,False,
+Real estate loan or guarantee,c11_real_estate,55,5.5,False,
+Identity check reported,c12_identity_check,38,3.8,False,

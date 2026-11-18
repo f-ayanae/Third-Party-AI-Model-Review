@@ -1,0 +1,12 @@
+private/
+evidence/raw_named/
+evidence/sources_named.csv
+lab/bondora/*.csv
+lab/bondora/*.zip
+lab/out/bondora/SYNTHETIC_FIXTURE_NOT_BONDORA/
+__pycache__/
+.venv/
+data/bondora/LoanData.csv
+data/bondora/*.zip
+data/bondora/*.parquet
+data/bondora/*.xlsx

@@ -1,0 +1,121 @@
+# Transparency is not evidence: assessing a credit bureau score ahead of Germany's new scoring rules
+
+*Fiona Edocket, November 2026. A portfolio case study presented as a public-evidence readiness review. It is not an audit, a validation or legal advice.*
+
+On 20 November 2026, a new §37a of the Federal Data Protection Act (BDSG) takes effect. It prohibits the use of age, gender, name, bank account transaction data and address data, among other categories, in credit scores. At the same time, an amended §30 BDSG introduces notification duties for consumer lenders that decline an application on the basis of credit bureau information. In October, the Federal Court of Justice also clarified the conditions under which a bureau must explain an individual score.
+
+For lenders that rely on bureau scores, these changes raise a practical question that concerns evidence as much as law: what must a bank be able to demonstrate before it adopts a vendor's score? This case study addresses that question for one score, from the perspective of a model risk and third-party risk reviewer.
+
+## The decision under review
+
+In March 2026, a large German credit bureau replaced its existing scores with a single score based on twelve published criteria, on a scale of 100 to 999. Lenders that use it must decide whether to adopt it and how to recalibrate their cut-offs.
+
+The case uses a fictional lender, Mainkai Direktbank, a Frankfurt-based direct bank that would use the score to decline, price and size unsecured instalment loans across approximately 120,000 applications a year. The bureau is real but is not named. A public review that records evidence as "not provided" against a named company could be read as an allegation, and this review makes none.
+
+The review asks two questions: what evidence would be required before approving adoption, and how much of that evidence is available in the public record?
+
+## Why this problem
+
+Under German supervisory requirements, responsibility for a vendor model remains with the bank. For institutions supervised by BaFin, MaRisk AT 4.3.4 extends model governance to models developed by third parties, with requirements on suitability, data quality, validation and explainability. BTO 1.2 Tz. 5 further requires a bank to form its own view of credit risk rather than rely exclusively on external assessments.
+
+The bureau publishes every criterion and the points assigned to it. That level of transparency makes it a useful test of a common assumption in vendor oversight: that a transparent model is, by extension, an adequately evidenced one. The bureau does not publish a model card, a validation report or outcome data, and the review examines what that absence means for a lender.
+
+## Approach
+
+The review was built in four parts.
+
+**Evidence register.** 49 sources and 30 claims, each classified as either a sourced fact or an assessment. The statute (BGBl. 2026 I Nr. 139) and the BaFin MaRisk circular are retained as original documents with file hashes; other sources are recorded as excerpts.
+
+**Points-table calculator.** The published table is implemented in code and tested to confirm that the scale runs from exactly 100 to 999 and that points move in the expected direction. Where the bureau does not publish intermediate values, the calculator reports lower and upper bounds rather than estimates.
+
+**Proxy outcomes testing.** No outcome data are public for this score, so the tests a lender should require were run on 303,949 loans from Bondora, an Estonian lender. These results illustrate the tests; they do not describe the bureau's score.
+
+**Decision rules.** Four outcomes (reject, defer, approve with conditions, approve) are applied programmatically to the findings, so the recommendation follows from the ratings rather than from a final judgement.
+
+## Findings
+
+| Figure | Significance |
+|---|---|
+| 94 points | Maximum contribution of the "age of current address" criterion, which the new prohibition on address data calls into question |
+| 743 | Highest score attainable after one year in the German credit file with a clean record |
+| 2 to 5 years | Time required for that applicant to reach the top score class |
+| 2 pieces of evidence | Decide adoption: a retrospective score on the bank's applicants, and the bureau's position on the address criterion |
+
+### The address criterion and §37a
+
+§37a(2) No. 1(d) prohibits the use of address data ("Anschriftendaten") in scores. One criterion, age of current address, contributes up to 94 points. Under a broad reading, residence time derives from address data and falls within the prohibition. Under a narrower reading, the provision targets location-based scoring, and residence time is a measure of stability. No court has yet decided the question.
+
+The review does not treat this as a breach. It is rated High, with escalation to Critical if the bureau retains the criterion and the bank's counsel adopts the broader reading.
+
+### A structural ceiling for thin credit files
+
+Time-dependent criteria account for 280 of 999 points. An applicant with a clean payment record and no mortgage can reach at most 743 after one year in the German credit file, which falls in Class 2. Reaching Class 1 takes between 2 and 5 years; the published table does not support a narrower estimate.
+
+![Highest score the published table allows after a given time in the credit file](../lab/out/chart_ceiling.png)
+
+Lower scores for short credit histories are expected by design. The relevant question is whether the score is calibrated within these segments: whether a given score implies the same default risk for younger applicants and recent arrivals as for the wider population. No public evidence addresses this.
+
+### The lender's own product affects its customers' scores
+
+In the calculator, a 60-month Mainkai loan reduces the borrower's score by 78 to 88 points through three criteria. This has implications for top-up lending and for how customers are informed about the effect of loan term on their credit standing.
+
+### Aggregate metrics can conceal deterioration
+
+On the Bondora data, rank ordering failed at the riskier end of the scale, where an auto-decline cut-off would typically sit: in 2025, grade F (17.6%, 1,309 loans) defaults less than E (19.6%). Seven of eight grades deteriorated relative to the reference period while the overall default rate remained broadly stable (8.3% against 8.6%), owing to a shift in mix towards the best grade. Across customer segments, observed defaults ranged from 0.72 to 2.34 times the level implied by the grade.
+
+![Default rate by grade, reference period against the out-of-time sample](../lab/out/bondora/bondora_proxy/chart_rank_ordering.png)
+
+### Lender obligations under §30(7)
+
+The amended §30(7) introduces two notification duties from 20 November. Where a consumer loan is declined on the basis of bureau information, the lender must inform the applicant of that information, the database consulted and the data categories considered. Where the decision rests on automated processing, the lender must also explain the right to human review and the procedure for contesting the decision. Failure to inform is an administrative offence under §43(1) No. 2. This finding is rated High.
+
+## Recommendation: a path to approval
+
+On public evidence alone, the score is not yet approvable, and the decision rules return "defer pending evidence". That is not a judgement against the score. It reflects a ratability test applied in code: a core element of the model review may be rated only where a result is visible in the evidence, such as a reported metric, a published table or a stated review conclusion. Data, methodology, testing and the external review each meet this test. Outcomes analysis on the bank's own applicants does not.
+
+The more useful output is what would change that. Running the same rules on two hypothetical scenarios shows that the decision turns on two pieces of evidence:
+
+| Scenario | Outcome |
+|---|---|
+| Public evidence only (this review) | Defer pending evidence |
+| Bureau supplies a retro-score (hypothetical) | Approve with conditions |
+| Criterion 4 kept; counsel says address data (hypothetical) | Reject |
+
+Both are specific and obtainable: a retrospective score on 24 to 36 months of the bank's past applications (evidence request E02), and a written position from the bureau on the address criterion with a legal opinion from the bank's counsel (E01).
+
+The outcome tests are already built and run end to end on the Bondora proxy: a paired champion and challenger comparison with a 3-point Gini tolerance (on the proxy, 0.37 against 0.18, a difference of +0.20 with an interval of +0.19 to +0.21), out-of-time discrimination, rank ordering and calibration by band, segment calibration, and population stability. When the evidence arrives, the review resumes from a defined point: run the tests, re-rate the outcomes element, and let the same rules return the decision.
+
+## Methodological revisions
+
+| Initial approach | Revised approach | Rationale |
+|---|---|---|
+| A threshold of 0.55 Gini on the bank's loans | No loss of more than 3 Gini points against the incumbent score on the same applicants | A Gini measured on one lender's applicants is lower than a bureau-wide figure by construction, so a fixed threshold can reject a sound score |
+| Reference period 2023 Q3 to 2024 Q4 | 2024 Q2 to Q4 | The longer window combined two rating regimes and overstated drift by about a third |
+| Figures entered manually in the report | All figures generated from the data at build time | An internal review found three figures that no longer matched the data |
+
+## Lessons
+
+**Absolute discrimination thresholds are unsuitable for vendor scores.** The bureau reports a Gini coefficient of around 0.6 across its full population. On a single lender's applicants the figure will be lower regardless of model quality. A paired comparison against the incumbent score, on the same applicants, is the appropriate test.
+
+**Drift measures depend on a stable baseline.** The original reference period combined two rating regimes, which became apparent only when the data were examined by quarter.
+## Limitations
+
+This is a method demonstration based on public evidence. The review had no access to the bureau's data, code or contracts. The Bondora results describe a different lender and population; only aggregates covering at least 30 loans are shown, and the raw data are not shared. The findings, ratings and tolerances reflect the author's judgement.
+
+## Next steps
+
+The remaining web sources will be archived as original documents so that every claim carries a file hash. The same approach will then be applied to two further problems: a validator for the DORA register of information, and an assurance assessment of an AML transaction-monitoring model.
+
+Comments from practitioners in model risk, third-party risk and credit are welcome. The one-page decision memo is the most concise summary of the review.
+
+## Supporting materials
+
+- Decision memo (1 page): `deliverables/Third_Party_Model_Decision_Memo.pdf`
+- Full review (24 pages): `deliverables/Third_Party_Model_Review.pdf`
+- Model-risk crosswalk (1 page): `deliverables/Third_Party_Model_Crosswalk_OnePage.pdf`
+- Interactive points-table calculator: `deliverables/calculator.html`
+- Evidence register and code: the project repository
+
+---
+
+*Code MIT, text CC BY 4.0.*

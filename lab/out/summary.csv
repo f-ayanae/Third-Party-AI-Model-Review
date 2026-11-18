@@ -1,0 +1,12 @@
+max_total,999
+time_points,280
+months_to_class1_step,60
+months_to_class1_interp,30
+months_to_class1_upper,24
+ceiling_at_12m_upper,743
+months_to_class2_step,12
+ceiling_at_12m_step,743
+ceiling_at_12m_interp,743.0
+ceiling_at_36m_step,753
+ceiling_at_36m_interp,787.6
+all_monotonic,True

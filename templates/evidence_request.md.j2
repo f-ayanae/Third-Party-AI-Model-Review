@@ -1,0 +1,16 @@
+# Evidence request to {{ v.vendor }}: new 12-criterion score (v1.0)
+
+From: Mainkai Direktbank AG (fictional), Credit Risk and Third-Party Risk
+Purpose: decide whether to adopt the score as the primary bureau score for the Ratenkredit.
+Status of this request: generated from the findings register of the public-evidence review.
+
+Each item names the document or test, why we need it, how we will use it and the deadline.
+Where an item is commercially sensitive we will accept it under NDA or as a read-only data-room copy.
+
+| # | What we ask for | Why | How we will test it | Findings | Deadline | Mainkai owner |
+|---|---|---|---|---|---|---|
+{% for r in reqs -%}
+| {{ r.id }} | {{ subst(r.item, v) }} | {{ subst(r.why, v) }} | {{ subst(r.test, v) }} | {{ r.findings|join(", ") }} | {{ r.deadline }} | {{ r.owner }} |
+{% endfor %}
+
+Items E01, E02, E03, E07, E09 and E11 gate contract signature. Without E02 the review cannot rate outcomes analysis and the recommendation stays "defer pending evidence".

@@ -1,0 +1,15 @@
+base,event,before,after,delta,class_before,class_after
+A2,New credit card (one inquiry; a first card replaces the no-card points),850,815,-35,Class 1 (top),Class 1 (top)
+A2,One more non-bank inquiry,850,822,-28,Class 1 (top),Class 1 (top)
+A2,Takes 36-month Ratenkredit,850,813,-37,Class 1 (top),Class 1 (top)
+A2,Takes 60-month Ratenkredit,850,762,-88,Class 1 (top),Class 2
+A2,Takes 96-month Ratenkredit,850,752,-98,Class 1 (top),Class 2
+A2,Moves house,850,850,0,Class 1 (top),Class 1 (top)
+A2,Payment disruption settled within the last year,850,686,-164,Class 1 (top),Class 3
+A3,New credit card (one inquiry; a first card replaces the no-card points),719,657,-62,Class 2,Class 3
+A3,One more non-bank inquiry,719,691,-28,Class 2,Class 3
+A3,Takes 36-month Ratenkredit,719,692,-27,Class 2,Class 3
+A3,Takes 60-month Ratenkredit,719,641,-78,Class 2,Class 4
+A3,Takes 96-month Ratenkredit,719,631,-88,Class 2,Class 4
+A3,Moves house,719,702,-17,Class 2,Class 3
+A3,Payment disruption settled within the last year,719,555,-164,Class 2,Class 4

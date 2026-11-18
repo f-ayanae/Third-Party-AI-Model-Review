@@ -1,0 +1,113 @@
+# Published points table for the bureau's 12-criterion score (v1.0, live 17 Mar 2026).
+# Built only from public pages; see evidence/sources.csv for source ids.
+# knots: [threshold, points]. For time criteria the threshold is in months and
+# a person at or above a threshold earns its points. "none" is the value when
+# the person holds no such product. Unpublished intermediate values are NOT
+# invented: the calculator holds the last published value (step-hold, a
+# lower bound) and can optionally interpolate (illustrative only, not a bound).
+# There is no base: the twelve maxima sum to 999 and the floor of 100 comes
+# from the payment criterion.
+
+criteria:
+  - id: c01_payment_disruptions
+    label: Payment disruptions
+    kind: categorical
+    sources: [V01, V23]
+    options:
+      none: 264
+      resolved_under_1y: 100
+      resolved_1y_to_2y: 135
+      resolved_2y_to_3y: 152
+    no_score_if: open
+    unpublished: "Debt-collection inquiries lower the score for 12 months; value not published."
+
+  - id: c02_oldest_bank_contract
+    label: Age of oldest bank contract
+    kind: time
+    sources: [V02]
+    none: 18
+    knots: [[0, 0], [3, 3], [12, 12], [48, 23], [120, 49], [240, 69]]
+    unpublished: "Annual values between 1, 4, 10 and 20 years."
+
+  - id: c03_oldest_credit_card
+    label: Age of oldest credit card
+    kind: time
+    sources: [V03]
+    none: 24
+    knots: [[0, 0], [6, 14], [12, 23], [60, 59], [120, 74], [180, 81]]
+    unpublished: "Values for years 2 to 4 and 6 to 9."
+
+  - id: c04_current_address
+    label: Age of current address
+    kind: time
+    sources: [V04, V22]
+    none: null
+    knots: [[0, 0], [7, 6], [12, 17], [120, 63], [180, 75], [240, 94]]
+    unpublished: "Values for years 2 to 9. Year-1 value applies from 1 year and 31 days (30-day grace rule, V22); the calculator steps at 12 months."
+    legal_flag: "s.37a(2) No.1(d) BDSG excludes address data from 20 Nov 2026"
+
+  - id: c05_recent_credit_line
+    label: Age of most recent credit line
+    kind: time
+    sources: [V22]
+    none: 36
+    knots: [[0, 0], [12, 16], [24, 36]]
+    unpublished: "Confirmed by the author on the bureau criteria page (V22); secondary sources V10 and V11 agree."
+
+  - id: c06_bank_card_inquiries
+    label: Current-account and card inquiries/transactions, 12 months
+    kind: count
+    sources: [V05]
+    values: [117, 82, 44]
+    floor: 0
+
+  - id: c07_nonbank_inquiries
+    label: Inquiries outside banking, 12 months
+    kind: count
+    sources: [V06]
+    values: [99, 99, 71, 40]
+    floor: 0
+
+  - id: c08_instalment_loans_taken
+    label: Instalment loans taken, 12 months
+    kind: count
+    sources: [V22]
+    values: [66, 48, 32]
+    floor: 0
+
+  - id: c09_longest_remaining_term
+    label: Longest remaining term of instalment loans
+    kind: term
+    sources: [V22]
+    none: 61
+    # remaining months -> points (higher remaining term = fewer points).
+    # Bureau text (V22): up to three years scores 61 and 'has no negative impact'; three years or more 48;
+    # four or more 28; five or more 10; six or more 0. The overlap at exactly 36 months is read as 61.
+    knots: [[0, 61], [36, 61], [37, 48], [48, 28], [60, 10], [72, 0]]
+
+  - id: c10_credit_status
+    label: Credit status
+    kind: categorical
+    sources: [V07, V22]
+    options:
+      open_or_negative: 0
+      no_instalment_loan: 9
+      completed_positive: 19
+
+  - id: c11_real_estate
+    label: Real estate loan or guarantee
+    kind: categorical
+    sources: [V08]
+    options: {"no": 0, "yes": 55}
+
+  - id: c12_identity_check
+    label: Identity check reported
+    kind: categorical
+    sources: [V09]
+    options: {"no": 0, "yes": 38}
+
+classes:   # class boundaries confirmed on the bureau overview page (V21)
+  - [776, "Class 1 (top)"]
+  - [709, "Class 2"]
+  - [642, "Class 3"]
+  - [100, "Class 4"]

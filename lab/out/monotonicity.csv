@@ -1,0 +1,13 @@
+criterion,direction,monotonic,entry_dip,note
+Payment disruptions,longer since settlement is better,True,False,open disruption: no score
+Age of oldest bank contract,older is better,True,True,holding none earns 18 vs 0 for a new product
+Age of oldest credit card,older is better,True,True,holding none earns 24 vs 0 for a new product
+Age of current address,older is better,True,False,
+Age of most recent credit line,older is better,True,True,holding none earns 36 vs 0 for a new product
+"Current-account and card inquiries/transactions, 12 months",more is worse,True,False,
+"Inquiries outside banking, 12 months",more is worse,True,False,
+"Instalment loans taken, 12 months",more is worse,True,False,
+Longest remaining term of instalment loans,longer remaining term is worse,True,False,no loan earns the maximum
+Credit status,categorical,True,True,"an open loan earns 0, below having no loan (9)"
+Real estate loan or guarantee,binary,True,False,
+Identity check reported,binary,True,False,

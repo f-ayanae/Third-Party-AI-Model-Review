@@ -1,0 +1,7 @@
+archetype,description,score_step,score_interp,class_step,class_interp,time_criteria_points,address_points,score_without_address_criterion
+A1 Established homeowner,"45, same address 20+ years, mortgage, old card, no new credit",999,999,Class 1 (top),Class 1 (top),280,94,905
+"A2 Established renter, moved 6 months ago","45, long bank and card history, recent house move",850,855.1,Class 1 (top),Class 1 (top),186,0,850
+"A3 Under-25, first job","22, bank contract since 18, no credit card, moved for work a year ago",719,719.0,Class 2,Class 2,100,17,702
+A4 Resident in Germany 14 months,"35, employed, account opened on arrival, no card, phone contract",743,744.5,Class 2,Class 2,89,17,726
+A5 Resident in Germany 8 months,"30, employed, account and card applications on arrival, phone and energy contracts",660,667.2,Class 3,Class 3,69,6,654
+A6 Under-25 after a 60-month Ratenkredit,A3 immediately after taking a 60-month instalment loan,641,641.0,Class 4,Class 4,100,17,624

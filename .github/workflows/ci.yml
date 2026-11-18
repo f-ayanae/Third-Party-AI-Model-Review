@@ -1,0 +1,20 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version-file: ".python-version" }
+      - run: pip install -r requirements.lock
+      - run: python -m playwright install --with-deps chromium
+      # Bondora outputs are committed aggregates; the raw file is private, so the Bondora run itself is not repeated here.
+      - run: python lab/run_lab.py
+      - run: python evidence/build_register.py
+      - run: python -m pytest -q
+      - run: cd src && python -m assurance.render
+      - run: python tools/to_pdf.py deliverables/review.html deliverables/Third_Party_Model_Review.pdf
+      - run: python tools/build_pdfs.py
+      - run: python tools/build_calculator.py
+      - run: python tools/prose_lint.py

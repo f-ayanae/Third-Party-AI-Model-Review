@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Points-table calculator: a German bureau's 12-criterion score</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{--navy:#111111;--navy2:#3d3d3d;--blue:#6b6b6b;--orange:#a8452c;--ink:#111111;--muted:#6b6b6b;--line:#dcdcdc;--tint:#f4f4f2;--bg:#ffffff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.45}
+header{background:#fff;color:var(--ink);padding:22px 24px 14px;border-bottom:1px solid var(--ink);max-width:1180px;margin:0 auto}header h1{margin:0;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:30px;line-height:1.05}header p{margin:8px 0 0;color:var(--muted);font-size:13px}
+main{max-width:1180px;margin:0 auto;padding:18px 20px 40px;display:grid;grid-template-columns:minmax(320px,430px) 1fr;gap:20px}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+.card{background:#fff;border:0;border-top:1px solid var(--ink);border-radius:0;padding:14px 0}
+h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:22px;color:var(--ink);margin:0 0 10px}
+label{display:block;font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:400;margin:10px 0 4px;color:var(--muted)}
+select,input[type=number]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:0;font:inherit;font-size:13px;background:#fff}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+button{font:inherit;font-size:12px;border:1px solid var(--ink);background:#fff;color:var(--ink);border-radius:0;padding:4px 10px;cursor:pointer}
+button:hover,button:focus-visible{background:var(--navy);color:#fff}
+.total{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.total .n{font-family:"Instrument Serif",Georgia,serif;font-size:64px;font-weight:400;color:var(--ink);line-height:1}
+.cls{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:0;border:1px solid var(--ink);color:var(--ink)}
+.toggles{display:flex;flex-wrap:wrap;gap:16px;margin:10px 0 4px;font-size:13px}.toggles label{display:inline;font-weight:500;color:var(--ink)}
+.bars{margin-top:8px}.bar{display:grid;grid-template-columns:190px 1fr 62px;gap:8px;align-items:center;margin:5px 0;font-size:12.5px}
+.track{height:10px;background:var(--tint);border-radius:0;position:relative}.fill{height:10px;border-radius:0;background:var(--navy);position:absolute;left:0;top:0}
+.fill.time{background:var(--orange)}.val{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);margin-top:10px}.flag{font-size:11px;color:var(--orange);font-weight:600}
+.scale{position:relative;height:30px;margin:14px 0 4px;background:linear-gradient(90deg,#f1f1ef 0 60.3%,#e2e2df 60.3% 67.7%,#cfcfcb 67.7% 75.2%,#b3b3ae 75.2%);border-radius:0}
+.scale .m{position:absolute;top:-4px;width:3px;height:38px;background:var(--navy);transition:left .2s}.scale span{position:absolute;top:8px;background:rgba(255,255,255,.7);padding:0 3px;border-radius:3px;font-size:11px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:12px}td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}th{color:var(--muted);font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:400}
+.warn{background:var(--tint);border-left:2px solid var(--ink);padding:8px 10px;font-size:12.5px;margin-top:10px}
+</style></head><body>
+<header><h1>Points-table calculator: a large German credit bureau's 12-criterion score (v1.0)</h1>
+<p>Built from the bureau's published points table only. It describes the published table, not how the bureau scores real people. Part of the Third-Party Model Review, a public-evidence review (12 Nov 2026). Not an audit, validation or legal opinion.</p></header>
+<main>
+<section class="card" aria-label="Inputs">
+<h2>Applicant file</h2>
+<div class="presets" id="presets"></div>
+<label for="payment">Payment disruptions</label>
+<select id="payment"><option value="none">None in the last 3 years</option><option value="resolved_under_1y">Settled within the last year</option><option value="resolved_1y_to_2y">Settled 1 to 2 years ago</option><option value="resolved_2y_to_3y">Settled 2 to 3 years ago</option><option value="open">Open (no score calculated)</option></select>
+<div class="row2"><div><label for="bank">Oldest bank contract (months, blank = none)</label><input id="bank" type="number" min="0" placeholder="none"></div>
+<div><label for="card">Oldest credit card (months, blank = none)</label><input id="card" type="number" min="0" placeholder="none"></div></div>
+<div class="row2"><div><label for="addr">Current address (months)</label><input id="addr" type="number" min="0" value="0"></div>
+<div><label for="line">Newest credit line (months, blank = none)</label><input id="line" type="number" min="0" placeholder="none"></div></div>
+<div class="row2"><div><label for="inqb">Account/card inquiries, 12m</label><input id="inqb" type="number" min="0" value="0"></div>
+<div><label for="inqn">Non-bank inquiries, 12m</label><input id="inqn" type="number" min="0" value="0"></div></div>
+<div class="row2"><div><label for="loans">Instalment loans taken, 12m</label><input id="loans" type="number" min="0" value="0"></div>
+<div><label for="term">Longest remaining term (months, blank = none)</label><input id="term" type="number" min="0" placeholder="none"></div></div>
+<label for="status">Credit status</label>
+<select id="status"><option value="no_instalment_loan">No instalment loan</option><option value="open_or_negative">Open, or settled negatively</option><option value="completed_positive">Completed positively, none open</option></select>
+<div class="row2"><div><label for="re">Real estate loan or guarantee</label><select id="re"><option value="no">No</option><option value="yes">Yes</option></select></div>
+<div><label for="id">Identity check reported</label><select id="id"><option value="no">No</option><option value="yes">Yes</option></select></div></div>
+</section>
+<section>
+<div class="card" aria-live="polite">
+<div class="total"><span class="n" id="total">0</span><span class="cls" id="cls">-</span><span id="range" class="note"></span></div>
+<div class="scale" aria-hidden="true"><div class="m" id="marker"></div><span style="left:6px">100</span><span style="left:60.3%;transform:translateX(-50%)">642</span><span style="left:67.7%;transform:translateX(-50%)">709</span><span style="left:75.2%;transform:translateX(-50%)">776</span><span style="right:6px">999</span></div>
+<div class="toggles">
+<span><input type="radio" name="rd" id="rstep" value="step" checked> <label for="rstep">Published values only (step-hold)</label></span>
+<span><input type="radio" name="rd" id="rint" value="interp"> <label for="rint">Interpolate unpublished years</label></span>
+<span><input type="checkbox" id="noaddr"> <label for="noaddr">Scenario: drop criterion 4 (address data, §37a BDSG)</label></span></div>
+<div class="bars" id="bars"></div>
+<p class="note">Rust marks the time-dependent criteria (280 of 999 points). Classes as reported: 776+, 709 to 775, 642 to 708, 100 to 641. There is no base score: the twelve maxima sum to 999.</p>
+<div class="warn" id="warn" hidden></div>
+</div>
+<div class="card" style="margin-top:16px"><h2>Published points used</h2><table id="tbl"><thead><tr><th>Criterion</th><th>Max</th><th>Not published</th></tr></thead><tbody></tbody></table>
+<p class="note">Sources: the bureau's criterion pages (primary) and two consumer-finance sites for criteria 5, 8 and 9 (secondary), captured 12 Nov 2026. Dropping criterion 4 is a what-if only: if the bureau changed the model, every weight would be re-estimated.</p></div>
+</section></main>
+<script>
+const T = /*TABLE*/null;
+const C = Object.fromEntries(T.criteria.map(c=>[c.id,c]));
+const TIME = ["c02_oldest_bank_contract","c03_oldest_credit_card","c04_current_address","c05_recent_credit_line"];
+const $ = id => document.getElementById(id);
+const num = id => { const v=$(id).value.trim(); return v===""?null:Math.max(0,+v); };
+function knot(k,m,rd){let p=k[0][1];for(let i=0;i<k.length;i++){const[t,v]=k[i];if(m>=t){p=v;if(rd==="interp"&&i+1<k.length){const[nt,nv]=k[i+1];if(m<nt)p=v+(nv-v)*(m-t)/(nt-t);}}}return p;}
+const cnt=(c,n)=>n<c.values.length?c.values[n]:c.floor;
+function points(rd){
+  const pay=$("payment").value; if(pay==="open") return null;
+  const tm=(id,m)=>m===null?C[id].none:knot(C[id].knots,m,rd);
+  const o={};
+  o.c01_payment_disruptions=C.c01_payment_disruptions.options[pay];
+  o.c02_oldest_bank_contract=tm("c02_oldest_bank_contract",num("bank"));
+  o.c03_oldest_credit_card=tm("c03_oldest_credit_card",num("card"));
+  o.c04_current_address=knot(C.c04_current_address.knots,num("addr")||0,rd);
+  o.c05_recent_credit_line=tm("c05_recent_credit_line",num("line"));
+  o.c06_bank_card_inquiries=cnt(C.c06_bank_card_inquiries,num("inqb")||0);
+  o.c07_nonbank_inquiries=cnt(C.c07_nonbank_inquiries,num("inqn")||0);
+  o.c08_instalment_loans_taken=cnt(C.c08_instalment_loans_taken,num("loans")||0);
+  const term=num("term"); o.c09_longest_remaining_term=term===null?C.c09_longest_remaining_term.none:knot(C.c09_longest_remaining_term.knots,term,rd);
+  o.c10_credit_status=C.c10_credit_status.options[$("status").value];
+  o.c11_real_estate=C.c11_real_estate.options[$("re").value];
+  o.c12_identity_check=C.c12_identity_check.options[$("id").value];
+  if($("noaddr").checked) o.c04_current_address=0;
+  return o;
+}
+function maxOf(c){if(c.kind==="categorical")return Math.max(...Object.values(c.options));if(c.kind==="count")return Math.max(...c.values,c.floor);return Math.max(...c.knots.map(k=>k[1]),c.none??0);}
+const cls=s=>s===null?"No score":s>=776?"Class 1 (top)":s>=709?"Class 2":s>=642?"Class 3":"Class 4";
+function render(){
+  const rd=document.querySelector('input[name=rd]:checked').value;
+  const p=points(rd), w=$("warn");
+  const term=num("term");
+  w.hidden=true;
+  if($("status").value==="completed_positive"&&term){w.hidden=false;w.textContent="Published rule: 19 points for a completed loan apply only when no instalment loan is open. Clear the remaining term or change the status.";}
+  if(!p){$("total").textContent="-";$("cls").textContent="No score";$("bars").innerHTML="<p class='note'>No score is calculated while a payment disruption is open.</p>";$("marker").style.left="0";$("range").textContent="";return;}
+  const tot=Object.values(p).reduce((a,b)=>a+b,0);
+  $("total").textContent=Math.round(tot);$("cls").textContent=cls(tot);
+  $("marker").style.left=`calc(${(tot-100)/899*100}% - 1px)`;
+  const other=rd==="step"?"interp":"step"; const p2=points(other); const t2=Object.values(p2).reduce((a,b)=>a+b,0);
+  $("range").textContent=Math.round(t2)!==Math.round(tot)?`Other reading: ${Math.round(t2)}`:"";
+  $("bars").innerHTML=T.criteria.map(c=>{const m=maxOf(c),v=p[c.id];const flag=c.legal_flag?` <span class="flag">§37a</span>`:"";
+    return `<div class="bar"><span>${c.label}${flag}</span><div class="track" title="${c.label}: ${Math.round(v)} of ${m}"><div class="fill ${TIME.includes(c.id)?"time":""}" style="width:${v/m*100}%"></div></div><span class="val">${Math.round(v)} / ${m}</span></div>`;}).join("");
+}
+const PRESETS={
+ "A1 Established homeowner":{bank:300,card:240,addr:300,status:"completed_positive",re:"yes",id:"yes"},
+ "A2 Renter, moved 6 months ago":{bank:300,card:200,addr:6,inqn:1,status:"completed_positive",id:"yes"},
+ "A3 Under-25, first job":{bank:48,addr:12,inqb:1,inqn:1,id:"yes"},
+ "A4 In Germany 14 months":{bank:14,addr:14,inqn:1,id:"yes"},
+ "A6 A3 after 60-month loan":{bank:48,addr:12,inqb:1,inqn:1,loans:1,term:60,status:"open_or_negative",id:"yes"}};
+function apply(pr){const d={payment:"none",bank:"",card:"",addr:0,line:"",inqb:0,inqn:0,loans:0,term:"",status:"no_instalment_loan",re:"no",id:"no"};
+  Object.entries({...d,...pr}).forEach(([k,v])=>{$(k==="payment"?"payment":k).value=v;});render();}
+$("presets").innerHTML=Object.keys(PRESETS).map(k=>`<button type="button" data-k="${k}">${k}</button>`).join("");
+$("presets").addEventListener("click",e=>{if(e.target.dataset.k)apply(PRESETS[e.target.dataset.k]);});
+document.querySelectorAll("input,select").forEach(el=>el.addEventListener("input",render));
+document.querySelector("#tbl tbody").innerHTML=T.criteria.map(c=>`<tr><td>${c.label}</td><td>${maxOf(c)}</td><td>${c.unpublished||""}</td></tr>`).join("");
+apply(PRESETS["A3 Under-25, first job"]);
+</script></body></html>

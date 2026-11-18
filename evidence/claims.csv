@@ -1,0 +1,31 @@
+claim_id,claim,type,source_ids,checklist_item,finding_id
+C01,The score is the sum of twelve criteria; maxima sum to 999 and the minimum is 100 because the payment criterion floors at 100.,fact,V01;V02;V03;V04;V05;V06;V07;V08;V09;V10,F,
+C02,There is no separate 100-point base.,assessment,V01;V10,F,Arithmetic on published maxima
+C03,Points were derived by logistic regression on historical default data.,fact,V12;V13,D,
+C04,"The bureau reports a Gini of 0.6 for the new score; sample, period and segment are not published.",fact,V12,G,F02
+C05,The bureau reports a Fraunhofer IAIS review of scientific quality and data relevance; the review report is not public.,fact,V13;V18,J,F05
+C06,"Section 37a(2) No. 1(d) BDSG bars use of address data for covered scores from 20 Nov 2026, without exception per the committee note.",fact,L01;L02,G2,F01
+C07,Whether the address-age criterion is address data under section 37a is unresolved and the bureau has not publicly explained its treatment.,fact,L03;V17,G2,F01
+C08,"Section 37a binds both creation and use of a score, so the lender's use is directly conditioned.",assessment,L01,G2,F01
+C09,BGH 21 Oct 2026: Art 15(1)(h) applies only where Art 22(1) is met; transmission plus timely adverse decision raises a presumption.,fact,L05,G3,F10
+C10,Time-dependent criteria carry 280 of 999 points (28%).,assessment,V02;V03;V04;V10,C,F03
+C11,"Under the step-hold reading, a person with a one-year credit file and perfect behaviour cannot reach the top class.",assessment,lab,G,F03
+C12,A 60-month instalment loan lowers the replica score by roughly 70 to 90 points depending on prior state.,assessment,lab,G,F13
+C13,MaRisk 06/2026 removes DORA ICT services from AT 9.,fact,L11,T1,F08
+C14,Annex III high-risk obligations apply from 2 Dec 2027; legacy systems are caught on significant design change.,fact,L08,P9,F09
+C15,Commission guidelines place logistic regression used to improve optimisation outside the AI system definition; scope for decisions on people is disputed.,fact,L09,M,F09
+C16,BaFin is AI market surveillance authority for creditworthiness systems from 29 Jul 2026.,fact,L10,D9,
+C17,A lender adopting a new score version needs retrospective scoring of its own historical applicants to test discrimination.,fact,V20,H,F02
+C18,Bondora's terms appear to restrict publication of raw rows; only code and aggregates are published.,fact,B02,lab,
+C19,Old sector scores were adjusted for section 37a and expire on 31 Dec 2028.,fact,V17,K,F07
+C21,"On Bondora's out-of-time sample an eight-grade rating had a Gini of 0.37 (95% CI 0.36 to 0.38); as an absolute level this is not comparable across populations, so Mainkai's tolerance is a paired comparison against the current score.",fact,B03,G,F02
+C22,"Across Bondora segments, observed defaults ranged from 0.72 to 2.34 times those implied by the grade mix.",fact,B03,H,F03
+C23,Bondora's overall 12-month default rate was 8.3% in 2025 against 8.6% in the reference period while seven of eight grades defaulted more.,fact,B03,I,F12
+C20,Unpublished intermediate bands exist for three time-based criteria; debt-collection inquiry effect has no published value.,fact,V01;V02;V03;V04,F,F04
+C24,"MaRisk 06/2026 AT 4.3.4 applies to third-party models used in credit granting and requires a suitability assessment before use, data quality, override rules, regular validation and explainability.",fact,L11,D;G;J;L,F02;F06
+C25,MaRisk 06/2026 BTO 1.2 Tz. 5 bars relying exclusively on external credit assessments.,fact,L11,H,F02
+C26,"Criteria 4, 5, 8 and 9 (author check) and the four score-class boundaries (bureau overview page) were confirmed on the bureau's own pages.",fact,V21;V22,E,F04
+C28,"The bureau publishes its stored data categories and deletion periods (inquiries 12 months; settled claims and delinquency-free loans 3 years) but not lineage, coverage by criterion or quality measures.",fact,V23,C,F11
+C29,Under s.505a BGB from 20 Nov 2026 a consumer loan may be concluded only if a thorough creditworthiness assessment shows repayment is likely.,fact,L23,G1,
+C30,"From 20 Nov 2026 a rejection resting on automated processing must state the right to review by a person and the contest procedure (s.30(7) sentence 2 BDSG), and failing to inform is an administrative offence (s.43(1) No. 2).",fact,L01,L,F10
+C27,"From 20 Nov 2026, s.30(7) BDSG requires a lender that rejects a consumer loan because of credit-agency information to tell the consumer at once of that information, the database used and the data categories considered.",fact,L21,L,F10
