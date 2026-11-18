@@ -10,3 +10,7 @@ data/bondora/LoanData.csv
 data/bondora/*.zip
 data/bondora/*.parquet
 data/bondora/*.xlsx
+
+# kept on this computer only
+archive/
+tools/restyle_editorial.py
